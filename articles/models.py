@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import F
 
 
 class Article(models.Model):
@@ -28,8 +27,6 @@ class Scope(models.Model):
     class Meta:
         verbose_name = 'Тема'
         verbose_name_plural = 'Темы'
-        ordering = ['-topic']
-
 
 
 class ArticleScope(models.Model):
@@ -43,4 +40,4 @@ class ArticleScope(models.Model):
     class Meta:
         verbose_name = 'Тематика статьи'
         verbose_name_plural = 'Тематика статей'
-        ordering = ['-main']
+        ordering = ['-main', 'topic__topic']
