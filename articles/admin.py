@@ -12,13 +12,20 @@ class ScopeAdmin(admin.ModelAdmin):
 
 class ArticleScopeInlineFormset(BaseInlineFormSet):
     def clean(self):
+        num = 0
         for form in self.forms:
             # В form.cleaned_data будет словарь с данными
             # каждой отдельной формы, которые вы можете проверить
-            form.cleaned_data
+            data = form.cleaned_data
             # вызовом исключения ValidationError можно указать админке о наличие ошибки
             # таким образом объект не будет сохранен,
             # а пользователю выведется соответствующее сообщение об ошибке
+            try:
+                if data['main'] is True:
+                    num += 1
+            except KeyError:
+                pass
+        if num != 1:
             raise ValidationError('Основным  может быть только один раздел')
         return super().clean()  # вызываем базовый код переопределяемого метода
 
